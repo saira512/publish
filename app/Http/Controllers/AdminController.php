@@ -62,6 +62,9 @@ class AdminController extends Controller
 
     public function create_notice(Request $request)
     {
+       return $request->all();
+
+       
        /*$user_id=Auth::user()->id;
        $this->validate($request, [
              'title' => 'required',

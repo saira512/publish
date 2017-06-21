@@ -18,7 +18,7 @@
 
                 <div class="panel-body">
                     <li><a href="{{ route('add_notice') }}"> Create New Notice</a></li>
-                    <li><a href="{{ route('view_notice') }}"> My Notices</a></li>
+                    <li><a href="{{ route('view_my_notice') }}"> My Notices</a></li>
                 </div>
             </div>
         </div>

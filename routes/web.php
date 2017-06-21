@@ -13,6 +13,7 @@
 Auth::routes();
 Route::get('add_notice', 'AdminController@add_notice')->name('add_notice');
 Route::get('view_notice', 'AdminController@view_notice')->name('view_notice');
+Route::get('view_my_notice', 'AdminController@view_my_notice')->name('view_my_notice');
 Route::post('create_notice', 'AdminController@create_notice')->name('create_notice');
 Route::get('add_role', 'AdminController@add_role')->name('add_role');
 Route::post('create_role', 'AdminController@create_role')->name('create_role');
