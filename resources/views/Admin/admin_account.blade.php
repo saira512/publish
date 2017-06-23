@@ -13,11 +13,12 @@
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
+            <div class="panel panel-primary">
                 <div class="panel-heading">Admin's Dashboard</div>
 
                 <div class="panel-body">
-                 <li><a href="{{ route('add_role') }}"> Add new role</a></li>
+                 <a href="{{ route('add_role') }}" class="btn btn-info"  role="button"> Add new role</a>
+                 <a href="{{ route('add_notice') }}" class="btn btn-info"  role="button"> Create New Notice</a>
                 </div>
             </div>
         </div>

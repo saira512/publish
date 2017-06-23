@@ -3,11 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\Notice;
 use App\Models\Permission;
 use Auth;
+use dateTime;
+use carbon\carbon;
+use DateInterval;
 
 class AdminController extends Controller
 {
@@ -52,7 +56,10 @@ class AdminController extends Controller
 
     public function view_my_notice()
     {
-        return view('Admin.view_notice');
+        $user_id = Auth::user()->id;
+        $name = Auth::user()->name;
+        $notice = Notice::all()->where('user_id',$user_id); 
+        return view('Admin.view_notice',["notice" => $notice,"name" => $name]);
     }
 
     public function view_all_notices()
@@ -62,25 +69,27 @@ class AdminController extends Controller
 
     public function create_notice(Request $request)
     {
-       return $request->all();
-
-       
-       /*$user_id=Auth::user()->id;
-       $this->validate($request, [
+       $sec =  strtotime($request['expiry_date'])  - strtotime(date('Y-m-d H:i:s'));  
+       if($sec> 0){
+           $user_id=Auth::user()->id;
+           $request['expiry_date'] =   strtotime($request['expiry_date']);
+           $this->validate($request, [
              'title' => 'required',
              'content' => 'required|unique:notices',
              'expiry_date' => 'required',
-        ]);
-
-        $role = Notice::create([
-            'title' => $request['title'],
-            'content' => $request['content'],
-            'expire_at' => $request['expiry_date'],
-             'user_id'  => $user_id,       
-         ]);
-        return redirect('add_notice')->with('Status','Your Notice Is Submitted To Admin For Approval');*/
-    
-
+           ]);
+        
+           $role = Notice::create([
+           'title' => $request['title'],
+           'content' => $request['content'],
+           'expire_at' => $request['expiry_date'],
+           'user_id'  => $user_id,       
+            ]);
+            return redirect('add_notice')->with('Status','Your Notice Is Submitted To Admin For Approval');
+        } else {
+           return redirect('add_notice')->with('Status','please select a time in future for expiry date and time');
+        }                                 
+       
     }
 
 
