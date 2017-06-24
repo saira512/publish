@@ -24,14 +24,10 @@
                           <br> Posted By:{{ $name }}
                      </div>
                     <div class=" col-md-6">
-                         <button type="submit" class="btn btn-primary" float:left>
-                                    EDIT 
-                         </button>
+                         <a href="{{ route('edit_notice',['id' => $notice->id ]) }}" class="btn btn-info" role="button"> Edit</a>
                      </div>
                      <div class=" col-md-offset-10">
-                         <button type="submit" class="btn btn-primary" float:left>
-                                    DELETE 
-                         </button>
+                        <a href="{{ route('delete_notice',['id' => $notice->id]) }}" class="btn btn-info" role="button"> Delete</a>
                          
                      </div>
                     </div>
