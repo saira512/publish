@@ -58,11 +58,16 @@ class AdminController extends Controller
     {
         $user_id = Auth::user()->id;
         $name = Auth::user()->name;
-        $notice = Notice::where('user_id',$user_id)->get(); 
-        return view('Admin.view_notice',['notice' => $notice, 'name' => $name]);
+        $notices = Notice::where('user_id',$user_id)->get(); 
+        return view('Admin.view_notice',['notices' => $notices, 'name' => $name]);
     }
 
-    public function view_all_notices()
+    public function view_old_notices()
+    {
+
+    }
+
+    public function view_new_notices()
     {
 
     }
@@ -94,8 +99,8 @@ class AdminController extends Controller
 
     public function edit_notice($id)
     {
-       $notice = Notice::all()->where('id',$id); 
-       return view('Admin.edit_notice',['notice' => $notice]);
+       $notices = Notice::all()->where('id',$id); 
+       return view('Admin.edit_notice',['notices' => $notices]);
     }
 
     public function delete_notice($id)
@@ -104,6 +109,20 @@ class AdminController extends Controller
     }
     public function update_notice(Request $request)
     {
-
+         $notice_id=$request->id;
+         $user_id=Auth::user()->id;
+         $this->validate($request, [
+             'title' => 'required',
+             'content1' => 'required',
+           ]);
+         $notice = Notice::find($notice_id);
+         $notice->title = $request->title;
+         $notice->content = $request->content1;
+         $notice->expire_at= $request->expire_at;
+         $notice->user_id= $user_id;
+         $notice->save();
+    
+         return redirect('view_my_notice')->with('Status','Your Updated Notice Is Submitted To Admin For Approval');
+                   
     }
 }

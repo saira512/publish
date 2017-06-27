@@ -12,7 +12,9 @@
 */
 Auth::routes();
 Route::get('add_notice', 'AdminController@add_notice')->name('add_notice');
-Route::get('update_notice', 'AdminController@update_notice')->name('update_notice');
+Route::get('view_new_notice', 'AdminController@view_new_notices')->name('view_new_notice');
+Route::get('view_old_notice', 'AdminController@view_old_notices')->name('view_old_notice');
+Route::post('update_notice', 'AdminController@update_notice')->name('update_notice');
 Route::get('view_notice', 'AdminController@view_notice')->name('view_notice');
 Route::get('view_my_notice', 'AdminController@view_my_notice')->name('view_my_notice');
 Route::post('create_notice', 'AdminController@create_notice')->name('create_notice');

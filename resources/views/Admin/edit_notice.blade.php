@@ -7,7 +7,7 @@
 @endif
 
 @section('content')
-@foreach ($notice as $notic)
+@foreach ($notices as $notice)
 
 <div class="container">
     <div class="row">
@@ -15,14 +15,17 @@
             <div class="panel panel-default">
                 <div class="panel-heading"><center>EDIT YOUR NOTICE</center></div>
                 <div class="panel-body">
-                    <form class="form-horizontal" role="form" method="POST" action="{{ route('update_notice') }}">
+                    <form class="form-horizontal" role="form" id="form" method="POST" action="{{ route('update_notice') }}">
                         {{ csrf_field() }}
+
+
+                        <input type="hidden" name="id" value="{{ old('id',$notice->id)}}" >
 
                         <div class="form-group{{ $errors->has('title') ? ' has-error' : '' }}">
                             <label for="title" class="col-md-4 control-label">TITLE</label>
 
                             <div class="col-md-6">
-                                <input id="title" type="text" class="form-control" name="title" value="{{ $notic->content }}" required autofocus>
+                                <input id="title" type="text" class="form-control" name="title" value="{{ old('title' ,$notice->title) }}" required autofocus>
 
                                 @if ($errors->has('title'))
                                     <span class="help-block">
@@ -32,36 +35,35 @@
                             </div>
                         </div>
 
-                        <div class="form-group{{ $errors->has('content') ? ' has-error' : '' }}">
-                            <label for="content" class="col-md-4 control-label">CONTENT</label>
+                       <div class="form-group{{ $errors->has('content1') ? ' has-error' : '' }}">
+                            <label for="content1" class="col-md-4 control-label">CONTENT</label>
 
+                
                             <div class="col-md-6">
-                                <textarea id="content" rows="10" cols="50" class="form-control" name="content" value="{{ $notic->content }}" required autofocus></textarea>
+                                <textarea id="content1" rows="10" cols="50" class="form-control" name="content1" value="{{ old('content' ,$notice->content) }}" required autofocus>{{ $notice->content }}</textarea>
 
-                                @if ($errors->has('content'))
+                                @if ($errors->has('content1'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('content') }}</strong>
+                                        <strong>{{ $errors->first('content1') }}</strong>
                                     </span>
                                 @endif
                             </div>
                         </div>
 
-                        <div class="form-group{{ $errors->has('expiry_date') ? ' has-error' : '' }}">
+                        <div class="form-group{{ $errors->has('expire_at') ? ' has-error' : '' }}">
                             <label for="expity_date" class="col-md-4 control-label">EXPIRY DATE AND TIME</label>
 
                             <div class="col-md-6">
-                                <input id="expiry_date" type="datetime-local" class="form-control" min="" name="expiry_date" value="{{ $notic->expire_at }}" required autofocus>
+                                <input id="expire_at"   class="form-control"  name="expire_at" value="{{ old('expire_at' , $notice->expire_at) }}" required autofocus >
                                
                                
-                                @if ($errors->has('expiry_date'))
+                                @if ($errors->has('expire_at'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('expiry_date') }}</strong>
+                                        <strong>{{ $errors->first('expire_at') }}</strong>
                                     </span>
                                 @endif
                             </div>
                         </div>
-
-                        
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
@@ -69,10 +71,7 @@
                                     SUBMIT 
                                 </button>
                             </div>
-                        </div>
-
-
-                        
+                        </div> 
                     </form>
                 </div>
             </div>

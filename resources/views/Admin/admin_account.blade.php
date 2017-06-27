@@ -19,6 +19,9 @@
                 <div class="panel-body">
                  <a href="{{ route('add_role') }}" class="btn btn-info"  role="button"> Add new role</a>
                  <a href="{{ route('add_notice') }}" class="btn btn-info"  role="button"> Create New Notice</a>
+                 <a href="{{ route('view_my_notice') }}"  class="btn btn-info" role="button"> My Notices</a>
+                 <a href="{{ route('view_new_notice') }}"  class="btn btn-info" role="button"> New  Notices</a>
+                 <a href="{{ route('view_old_notice') }}"  class="btn btn-info" role="button"> Old Notices</a>
                 </div>
             </div>
         </div>
