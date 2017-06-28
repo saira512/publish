@@ -15,7 +15,11 @@
             <div class="panel panel-default">
                 <div class="panel-heading"><center>EDIT YOUR NOTICE</center></div>
                 <div class="panel-body">
-                    <form class="form-horizontal" role="form" id="form" method="POST" action="{{ route('update_notice') }}">
+                  @if ($created_user == $logged_in_user)
+                    <form class="form-horizontal" role="form" id="form" method="POST" action="{{ route('update_my_notice') }}">
+                  @else
+                   <form class="form-horizontal" role="form" id="form" method="POST" action="{{ route('update_single_notice') }}">     
+                  @endif     
                         {{ csrf_field() }}
 
 
