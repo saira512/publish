@@ -11,8 +11,9 @@
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
 
         <!-- Styles -->
+        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
         <style>
-            html, body {
+            /*html, body {
                 background-color: #fff;
                 color: #636b6f;
                 font-family: 'Raleway', sans-serif;
@@ -23,7 +24,7 @@
 
             .full-height {
                 height: 100vh;
-            }
+            }*/
 
             .flex-center {
                 align-items: center;
@@ -41,13 +42,13 @@
                 top: 18px;
             }
 
-            .content {
+            /*.content {
                 text-align: center;
             }
 
             .title {
                 font-size: 84px;
-            }
+            }*/
 
             .links > a {
                 color: #636b6f;
@@ -83,9 +84,7 @@
             @endif
 
             <div class="content">
-                <div class="title m-b-md">
-                     welcome
-                </div>
+
 
                 <!--<div class="links">
                     <a href="https://laravel.com/docs">Documentation</a>
@@ -95,6 +94,29 @@
                     <a href="https://github.com/laravel/laravel">GitHub</a>
                 </div>-->
             </div>
+                            @foreach ($notices as $notice)
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-2">
+                    <div class="panel panel-success">
+                    <div class="panel-heading"> <font size="6"><center>{{ $notice->title }}</center></font></div>
+                        <div class="panel-body">
+                            <font size="5"><center>{{  $notice->content }}</center></font>
+
+                        <div>
+                        <div class="panel-footer">
+                            <font size=""> Published On:{{ $notice->published_on }}</font>
+                            
+                          <br> Posted By:{{ $notice->name }}
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+    @endforeach
         </div>
     </body>
 </html>

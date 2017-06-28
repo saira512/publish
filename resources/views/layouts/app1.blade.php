@@ -14,6 +14,8 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+        <script src="{{ asset('js/app.js') }}"></script>
+
 </head>
 <body>
     <div id="app">
@@ -46,7 +48,7 @@
                         <li><a href="{{ url('Myaccount') }}">My Account</a></li>
                         @endif
                         
-                            <li><a href="{{ route('publish') }}">Home</a>
+                            <li><a href="{{ route('home') }}">Home</a>
                              </li>
                         
                     </ul>
@@ -58,6 +60,5 @@
     </div>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}"></script>
 </body>
 </html>
