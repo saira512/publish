@@ -66,57 +66,43 @@
         </style>
     </head>
     <body>
-    @if (session('Status'))
-    <div class="alert alert-success" role= "alert">
-      <p><center>{{ session('Status') }}<center></p>
-    </div>
-    @endif
-        <div class="flex-center position-ref full-height">
+     @if (session('Status'))
+        <div class="alert alert-success" role= "alert">
+            <p><center>{{ session('Status') }}<center></p>
+        </div>
+     @endif
+     <div class="flex-center position-ref full-height">
             @if (Route::has('login'))
                 <div class="top-right links">
-                    @if (Auth::check())
-                        <a href="{{ url('Myaccount') }}">My Account</a>
-                    @else
-                        <a href="{{ url('login') }}">Login</a>
-                        <a href="{{ url('register_form') }}">Register</a>
-                    @endif
+                 @if (Auth::check())
+                    <a href="{{ url('Myaccount') }}">My Account</a>
+                 @else
+                    <a href="{{ url('login') }}">Login</a>
+                    <a href="{{ url('register_form') }}">Register</a>
+                 @endif
                 </div>
-            @endif
+             @endif
+             @foreach ($notices as $notice)
+                 <div class="container">
+                    <div class="row">
+                         <div class="col-md-6 col-md-offset-2">
+                            <div class="panel panel-success">
+                                <div class="panel-heading"> <font size="6"><center>{{ $notice->title }}</center></font></div>
+                                <div class="panel-body">
+                                    <font size="5"><center>{{  $notice->content }}</center></font>
 
-            <div class="content">
-
-
-                <!--<div class="links">
-                    <a href="https://laravel.com/docs">Documentation</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
-                </div>-->
-            </div>
-                            @foreach ($notices as $notice)
-
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6 col-md-offset-2">
-                    <div class="panel panel-success">
-                    <div class="panel-heading"> <font size="6"><center>{{ $notice->title }}</center></font></div>
-                        <div class="panel-body">
-                            <font size="5"><center>{{  $notice->content }}</center></font>
-
-                        <div>
-                        <div class="panel-footer">
-                            <font size=""> Published On:{{ $notice->published_on }}</font>
-                            
-                          <br> Posted By:{{ $notice->name }}
-                        </div>
+                                </div>
+                                 <div class="panel-footer">
+                                     <font size=""> Published On:{{ $notice->published_on }}</font>
+                                     <br> Posted By:{{ $notice->name }}
+                                 </div>
                         
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <br>
-    @endforeach
+                <br>
+            @endforeach
         </div>
     </body>
 </html>
