@@ -9,7 +9,7 @@
                 <p>Are you sure you, want to delete?</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-sm btn-primary" id="delete-btn">Delete</button>
+                <button type="button" class="btn btn-sm btn-primary" id="del-btn">Delete</button>
                 <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Close</button>
             </div>
         </div>
