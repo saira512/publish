@@ -9,7 +9,6 @@ use Auth;
 
 class UserController extends Controller
 {
-   
     public function __construct()
     {
     
@@ -17,26 +16,26 @@ class UserController extends Controller
    
     public function create()
     {
-       $roles = Role::all();
-       return view('Admin.user_register', ['roles' => $roles]);
+        $roles = Role::all();
+        return view('Admin.user_register', ['roles' => $roles]);
     }
 
     public function store(Request $request)
     {
-       $this->validate($request, [
-       'name' => 'required|max:255',
-       'email' =>'required|email',
-       'password' =>'required|confirmed|max:255',
-       ]);
-
-       $user = User::create([
-       'name' => $request['name'],
-       'email' => $request['email'],
-       'password' => bcrypt($request['password']),
+        $this->validate($request, [
+        'name' => 'required|max:255',
+        'email' =>'required|email',
+        'password' =>'required|confirmed|max:255',
         ]);
 
-       $user->roles()->attach($request->role);
-       return redirect('/')->with('Status','You Are Registered');
+        $user = User::create([
+        'name' => $request['name'],
+        'email' => $request['email'],
+        'password' => bcrypt($request['password']),
+         ]);
+
+         $user->roles()->attach($request->role);
+         return redirect('/')->with('Status','You Are Registered');
     }
 
     public function login()
