@@ -18,7 +18,7 @@ class AdminController extends Controller
     
     public function __construct()
     {
-       $this->middleware('auth')->except('index');
+        $this->middleware('auth')->except('index');
     }
     
     public function add_role()
@@ -30,7 +30,6 @@ class AdminController extends Controller
     
     public function create_role(Request $request)
     {
-        //return $request->all();
         $this->validate($request, [
              'title' => 'required|unique:roles',
         ]);
@@ -45,11 +44,11 @@ class AdminController extends Controller
         return redirect('add_role')->with('Status','New Role Added');
     
     }
+
     public function index()
     {
         $now = date('Y-m-d H:i:s');  
         $notices = Notice::get()->where('published_on',!NULL)->where('expire_at','>',$now)->sortByDesc('updated_at');
-        //return count($notices);
         foreach($notices as $notice){
             $user_id= $notice->user_id;
             $notice->name = User::where('id',$user_id)->first()->name;
@@ -57,6 +56,7 @@ class AdminController extends Controller
         }
         return view('Admin.home',['notices' => $notices ]);
     }
+
     public function add_notice()
     {
         return view('Admin.add_notice');
@@ -72,20 +72,20 @@ class AdminController extends Controller
 
     public function view_old_notices()
     {
-      $notices = Notice::all()->where('published_on',! NULL)->sortByDesc('updated_at');
-      return view('Admin.view_old_notices',['notices' => $notices]);
+        $notices = Notice::all()->where('published_on',! NULL)->sortByDesc('updated_at');
+        return view('Admin.view_old_notices',['notices' => $notices]);
     }
 
     public function view_new_notices()
     {
-      $notices = Notice::all()->where('published_on',"")->sortByDesc('updated_at');
-      return view('Admin.view_new_notices',['notices' => $notices]);
+        $notices = Notice::all()->where('published_on',"")->sortByDesc('updated_at');
+        return view('Admin.view_new_notices',['notices' => $notices]);
     }
 
     public function create_notice(Request $request)
     {
-       $sec =  strtotime($request['expiry_date'])  - strtotime(date('Y-m-d H:i:s'));  
-       if($sec> 0){
+        $sec =  strtotime($request['expiry_date'])  - strtotime(date('Y-m-d H:i:s'));  
+        if($sec> 0){
            $user_id=Auth::user()->id;
            $request['expiry_date'] =   strtotime($request['expiry_date']);
            $this->validate($request, [
@@ -95,10 +95,10 @@ class AdminController extends Controller
            ]);
         
            $role = Notice::create([
-           'title' => $request['title'],
-           'content' => $request['content'],
-           'expire_at' => $request['expiry_date'],
-           'user_id'  => $user_id,       
+             'title' => $request['title'],
+             'content' => $request['content'],
+             'expire_at' => $request['expiry_date'],
+             'user_id'  => $user_id,       
             ]);
             return redirect('add_notice')->with('Status','Your Notice Is Submitted To Admin For Approval');
         } else {
@@ -109,24 +109,25 @@ class AdminController extends Controller
 
     public function edit_my_notice($id)
     {
-       $notices = Notice::all()->where('id',$id); 
-       $user_id = Notice::where('id', $id)->first()->user_id;
-       $created_user = User::where('id',$user_id)->first()->name;
-       $logged_in_user = Auth::user()->name;
-       return view('Admin.edit_notice',['notices' => $notices , 'created_user' => $created_user , 'logged_in_user' => $logged_in_user]);
+        $notices = Notice::all()->where('id',$id); 
+        $user_id = Notice::where('id', $id)->first()->user_id;
+        $created_user = User::where('id',$user_id)->first()->name;
+        $logged_in_user = Auth::user()->name;
+        return view('Admin.edit_notice',['notices' => $notices , 'created_user' => $created_user , 'logged_in_user' => $logged_in_user]);
     }
 
     public function delete_notice($id)
     {
-      return $id;
+        return $id;
     }
+
     public function publish_notice($id)
     {
-         $notice = Notice::find($id);
-         $notice->published_on = date('Y-m-d H:i:s'); 
-         $notice->save();
+        $notice = Notice::find($id);
+        $notice->published_on = date('Y-m-d H:i:s'); 
+        $notice->save();
     
-       return redirect('adminaccount')->with('status','New notice published');
+        return redirect('adminaccount')->with('status','New notice published');
     }
 
     public function show_single_notice($id)
@@ -139,50 +140,46 @@ class AdminController extends Controller
 
     public function edit_single_notice($id)
     {
-       $notices = Notice::all()->where('id',$id); 
-       $user_id = Notice::where('id', $id)->first()->user_id;
-       $created_user = User::where('id',$user_id)->first()->name;
-       $logged_in_user = Auth::user()->name;
-       return view('Admin.edit_notice',['notices' => $notices , 'created_user' => $created_user ,'logged_in_user' => $logged_in_user]);
+        $notices = Notice::all()->where('id',$id); 
+        $user_id = Notice::where('id', $id)->first()->user_id;
+        $created_user = User::where('id',$user_id)->first()->name;
+        $logged_in_user = Auth::user()->name;
+        return view('Admin.edit_notice',['notices' => $notices , 'created_user' => $created_user ,'logged_in_user' => $logged_in_user]);
     }
 
     public function update_single_notice(Request $request)
     {
-       $notice_id=$request->id;
-       $user_id = Notice::where('id', $notice_id)->first()->user_id; 
-       $created_user = User::where('id',$user_id)->first()->name; 
-       $this->validate($request, [
+        $notice_id=$request->id;
+        $user_id = Notice::where('id', $notice_id)->first()->user_id; 
+        $created_user = User::where('id',$user_id)->first()->name; 
+        $this->validate($request, [
              'title' => 'required',
              'content1' => 'required',
-           ]);
-         $notice = Notice::find($notice_id);
-         $notice->title = $request->title;
-         $notice->content = $request->content1;
-         $notice->expire_at= $request->expire_at;
-         $notice->user_id= $user_id;
-         $notice->save();
-    
-         return redirect('adminaccount')->with('Status',$created_user." 's notice edited successfully ");
-                   
-        
+        ]);
+        $notice = Notice::find($notice_id);
+        $notice->title = $request->title;
+        $notice->content = $request->content1;
+        $notice->expire_at= $request->expire_at;
+        $notice->user_id= $user_id;
+        $notice->save();
+        return redirect('adminaccount')->with('Status',$created_user." 's notice edited successfully ");
     }
 
     public function update_my_notice(Request $request)
     {
-         $notice_id=$request->id;
-         $user_id=Auth::user()->id;
-         $this->validate($request, [
+        $notice_id=$request->id;
+        $user_id=Auth::user()->id;
+        $this->validate($request, [
              'title' => 'required',
              'content1' => 'required',
-           ]);
-         $notice = Notice::find($notice_id);
-         $notice->title = $request->title;
-         $notice->content = $request->content1;
-         $notice->expire_at= $request->expire_at;
-         $notice->user_id= $user_id;
-         $notice->save();
-    
-         return redirect('view_my_notice')->with('Status','Your Updated Notice Is Submitted To Admin For Approval');
+        ]);
+        $notice = Notice::find($notice_id);
+        $notice->title = $request->title;
+        $notice->content = $request->content1;
+        $notice->expire_at= $request->expire_at;
+        $notice->user_id= $user_id;
+        $notice->save();
+        return redirect('view_my_notice')->with('Status','Your Updated Notice Is Submitted To Admin For Approval');
                    
     }
 }
