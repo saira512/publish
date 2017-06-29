@@ -66,8 +66,9 @@ class AdminController extends Controller
     {
         $user_id = Auth::user()->id;
         $name = Auth::user()->name;
+        $now = date('Y-m-d H:i:s');  
         $notices = Notice::get()->where('user_id',$user_id)->sortByDesc('updated_at'); 
-        return view('Admin.view_notice',['notices' => $notices, 'name' => $name]);
+        return view('Admin.view_notice',['notices' => $notices, 'name' => $name,'user_id' => $user_id,'current_time' => $now]);
     }
 
     public function view_old_notices()
@@ -118,7 +119,9 @@ class AdminController extends Controller
 
     public function delete_notice($id)
     {
-        return $id;
+        $notice = Notice::find($id);
+        $notice->delete();
+        return redirect('/');
     }
 
     public function publish_notice($id)
@@ -135,7 +138,7 @@ class AdminController extends Controller
          $notices = Notice::all()->where('id',$id); 
          $user_id = Notice::where('id', $id)->first()->user_id;
          $name = User::where('id',$user_id)->first()->name;
-         return view('Admin.view_notice',['notices' => $notices, 'name' => $name]);
+         return view('Admin.show_single_notice',['notices' => $notices, 'name' => $name]);
     }
 
     public function edit_single_notice($id)
@@ -167,19 +170,23 @@ class AdminController extends Controller
 
     public function update_my_notice(Request $request)
     {
-        $notice_id=$request->id;
-        $user_id=Auth::user()->id;
-        $this->validate($request, [
+        $sec =  strtotime($request['expire_at'])  - strtotime(date('Y-m-d H:i:s'));  
+        if($sec> 0){
+            $notice_id=$request->id;
+            $user_id=Auth::user()->id;
+            $this->validate($request, [
              'title' => 'required',
              'content1' => 'required',
-        ]);
-        $notice = Notice::find($notice_id);
-        $notice->title = $request->title;
-        $notice->content = $request->content1;
-        $notice->expire_at= $request->expire_at;
-        $notice->user_id= $user_id;
-        $notice->save();
-        return redirect('view_my_notice')->with('Status','Your Updated Notice Is Submitted To Admin For Approval');
-                   
+            ]);
+            $notice = Notice::find($notice_id);
+            $notice->title = $request->title;
+            $notice->content = $request->content1;
+            $notice->expire_at= $request->expire_at;
+            $notice->user_id= $user_id;
+            $notice->save();
+            return redirect('/')->with('Status','Your Notice is updated');
+        } else {
+            return redirect('/')->with('status','Please select a time in future as expiry date');
+        }           
     }
 }
