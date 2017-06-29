@@ -1,6 +1,11 @@
 <!doctype html>
 <html lang="{{ app()->getLocale() }}">
     <head>
+    @if (session('Status'))
+        <div class="alert alert-success" role= "alert">
+            <p><center>{{ session('Status') }}<center></p>
+        </div>
+     @endif
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -66,12 +71,8 @@
         </style>
     </head>
     <body>
-     @if (session('Status'))
-        <div class="alert alert-success" role= "alert">
-            <p><center>{{ session('Status') }}<center></p>
-        </div>
-     @endif
-     <div class="flex-center position-ref full-height">
+     
+        <div class="flex-center position-ref full-height">
             @if (Route::has('login'))
                 <div class="top-right links">
                  @if (Auth::check())
@@ -81,27 +82,25 @@
                     <a href="{{ url('register_form') }}">Register</a>
                  @endif
                 </div>
-             @endif
-             @foreach ($notices as $notice)
-                 <div class="container">
+            @endif
+            @foreach ($notices as $notice)
+                <div class="container">
                     <div class="row">
-                         <div class="col-md-6 col-md-offset-2">
+                        <div class="col-md-6 col-md-offset-2">
                             <div class="panel panel-success">
-                                <div class="panel-heading"> <font size="6"><center>{{ $notice->title }}</center></font></div>
-                                <div class="panel-body">
-                                    <font size="5"><center>{{  $notice->content }}</center></font>
-
-                                </div>
+                                 <div class="panel-heading"> <font size="6"><center>{{ $notice->title }}</center></font></div>
+                                 <div class="panel-body">
+                                     <font size="5"><center>{{  $notice->content }}</center></font>
+                                 <div>
                                  <div class="panel-footer">
-                                     <font size=""> Published On:{{ $notice->published_on }}</font>
-                                     <br> Posted By:{{ $notice->name }}
+                                    <font size=""> Published On:{{ $notice->published_on }}</font>
+                                    <br> Posted By:{{ $notice->name }}
                                  </div>
-                        
                             </div>
                         </div>
                     </div>
                 </div>
-                <br>
+        
             @endforeach
         </div>
     </body>

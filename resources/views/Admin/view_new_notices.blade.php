@@ -8,24 +8,24 @@
 
 @section('content')
 <div class="container">
-  <div class="row">
-    <div class="col-md-8 col-md-offset-2">
-      <div class="panel panel-primary">
-        <div class="panel-heading">
-         New Notices
-        </div>
-        <div class="panel-body">
-          @if (count($notices) > 0)
-            <table align="center">
-              <tr>
-                <th style="padding: 0 10px;">Title</th>
-                <th style="padding: 0 10px;">Content</th>
-                <th style="padding: 0 10px;">Expiry_date</th>
-                <th style="padding: 0 10px;">View</th>
-                <th style="padding: 0 10px;">Edit</th>
-                <th style="padding: 0 10px;">Delete</th>
-                <th style="padding: 0 10px;">Publish</th>
-              </tr>
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            New Notices
+          </div>
+          <div class="panel-body">
+            @if (count($notices) > 0)
+              <table align="center">
+                <tr>
+                  <th style="padding: 0 10px;">Title</th>
+                  <th style="padding: 0 10px;">Content</th>
+                  <th style="padding: 0 10px;">Expiry_date</th>
+                  <th style="padding: 0 10px;">View</th>
+                  <th style="padding: 0 10px;">Edit</th>
+                  <th style="padding: 0 10px;">Delete</th>
+                  <th style="padding: 0 10px;">Publish</th>
+                </tr>
                 @foreach ($notices as $notice)
                   <tr>
                     <td style="padding: 15px 15px;">{{ $notice->title }} </td>
@@ -37,24 +37,22 @@
                     <td style="padding: 0 10px;"><a href="{{ route('publish_notice' , ['id' => $notice->id ]) }}"  class="btn btn-info" role="button"> Publish</a></td>
                   </tr>
                 @endforeach
-            </table>
-          @else
-           {{ "No new Notices"}}
-          @endif
+              </table>
+            @else
+              {{ "No new Notices"}}
+            @endif
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 @include('Admin.modal') 
-    <script type="text/javascript">
+  <script type="text/javascript">
     $(".delete-notice").click(function(e){
-       e.preventDefault();
-        $('#confirm').modal({ backdrop: 'static', keyboard: false }).on('click', '#del-btn', function(){
+      e.preventDefault();
+      $('#confirm').modal({ backdrop: 'static', keyboard: false }).on('click', '#del-btn', function(){
                 
-        });
+      });
     });
-
-
-
+  </script>
 @endsection
