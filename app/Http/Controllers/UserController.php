@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\Notice;
 use Auth;
 
 class UserController extends Controller
@@ -33,7 +34,8 @@ class UserController extends Controller
         'email' => $request['email'],
         'password' => bcrypt($request['password']),
          ]);
-
+         
+         
          $user->roles()->attach($request->role);
          return redirect('/')->with('Status','You Are Registered');
     }
